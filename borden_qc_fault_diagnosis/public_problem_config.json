@@ -1,0 +1,30 @@
+{
+  "scenario": "Borden-style 3D groundwater monitoring QC",
+  "flow_direction": "+x",
+  "units": {
+    "distance": "m",
+    "time": "days",
+    "concentration": "mg/L"
+  },
+  "hydrogeology": {
+    "velocity_m_per_day": 0.075,
+    "porosity": 0.33,
+    "alpha_L_m": 2.2,
+    "alpha_TH_m": 0.32,
+    "alpha_TV_m": 0.055,
+    "decay_per_day": 0.00018
+  },
+  "allowed_labels": [
+    "normal",
+    "spike",
+    "drift",
+    "stuck_zero",
+    "missing",
+    "unit_error",
+    "time_shift",
+    "coordinate_or_depth_error",
+    "true_plume_arrival",
+    "negative"
+  ],
+  "true_plume_arrival_note": "real plume arrival is not a sensor fault and should not be treated as bad data"
+}

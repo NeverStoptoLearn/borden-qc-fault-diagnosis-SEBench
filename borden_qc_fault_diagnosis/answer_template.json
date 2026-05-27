@@ -1,0 +1,23 @@
+{
+  "columns": [
+    "record_id",
+    "well_id",
+    "time_days",
+    "anomaly_label",
+    "confidence",
+    "event_id",
+    "root_cause"
+  ],
+  "allowed_labels": [
+    "normal",
+    "spike",
+    "drift",
+    "stuck_zero",
+    "missing",
+    "unit_error",
+    "time_shift",
+    "coordinate_or_depth_error",
+    "true_plume_arrival",
+    "negative"
+  ]
+}

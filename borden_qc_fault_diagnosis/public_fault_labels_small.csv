@@ -1,0 +1,99 @@
+record_id,well_id,time_days,anomaly_label,event_id,root_cause
+PV00453,W029,3240.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00439,W029,720.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00440,W029,900.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00458,W029,4140.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00449,W029,2520.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00455,W029,3600.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00165,W017,1080.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00173,W017,2520.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00169,W017,1800.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00164,W017,900.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00167,W017,1440.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00438,W029,540.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00446,W029,1980.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00180,W017,3780.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00178,W017,3420.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00174,W017,2700.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00457,W029,3960.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+PV00176,W017,3060.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+PV00226,W019,3780.0,drift,E019,slow sensor drift relative to local plume trend
+PV00525,W032,3780.0,drift,E020,slow sensor drift relative to local plume trend
+PV00527,W032,4140.0,drift,E020,slow sensor drift relative to local plume trend
+PV00524,W032,3600.0,drift,E020,slow sensor drift relative to local plume trend
+PV00305,W023,1440.0,drift,E018,slow sensor drift relative to local plume trend
+PV00315,W023,3240.0,drift,E018,slow sensor drift relative to local plume trend
+PV00314,W023,3060.0,drift,E018,slow sensor drift relative to local plume trend
+PV00313,W023,2880.0,drift,E018,slow sensor drift relative to local plume trend
+PV00319,W023,3960.0,drift,E018,slow sensor drift relative to local plume trend
+PV00307,W023,1800.0,drift,E018,slow sensor drift relative to local plume trend
+PV00225,W019,3600.0,drift,E019,slow sensor drift relative to local plume trend
+PV00217,W019,2160.0,drift,E019,slow sensor drift relative to local plume trend
+PV00514,W032,1800.0,drift,E020,slow sensor drift relative to local plume trend
+PV00221,W019,2880.0,drift,E019,slow sensor drift relative to local plume trend
+PV00216,W019,1980.0,drift,E019,slow sensor drift relative to local plume trend
+PV00219,W019,2520.0,drift,E019,slow sensor drift relative to local plume trend
+PV00520,W032,2880.0,drift,E020,slow sensor drift relative to local plume trend
+PV00521,W032,3060.0,drift,E020,slow sensor drift relative to local plume trend
+PV00082,W013,2700.0,missing,E017,missing block caused by monitoring logger fault
+PV00083,W013,2880.0,missing,E017,missing block caused by monitoring logger fault
+PV00084,W013,3060.0,missing,E017,missing block caused by monitoring logger fault
+PV00428,W028,2880.0,negative,E011,instrument baseline subtraction produced negative concentration
+PV00156,W016,3600.0,negative,E012,instrument baseline subtraction produced negative concentration
+PV00055,W012,1980.0,normal,E000,none
+PV00073,W013,1080.0,normal,E000,none
+PV00033,W011,2160.0,normal,E000,none
+PV00597,W035,4320.0,normal,E000,none
+PV00576,W035,540.0,normal,E000,none
+PV00280,W022,1080.0,normal,E000,none
+PV00261,W021,1800.0,normal,E000,none
+PV00009,W010,1980.0,normal,E000,none
+PV00481,W030,4140.0,normal,E000,none
+PV00070,W013,540.0,normal,E000,none
+PV00078,W013,1980.0,normal,E000,none
+PV00593,W035,3600.0,normal,E000,none
+PV00558,W034,1440.0,normal,E000,none
+PV00580,W035,1260.0,normal,E000,none
+PV00608,W036,2160.0,normal,E000,none
+PV00569,W034,3420.0,normal,E000,none
+PV00188,W018,1080.0,normal,E000,none
+PV00097,W014,1260.0,normal,E000,none
+PV00157,W016,3780.0,spike,E008,single-point jump inconsistent with temporal/spatial plume
+PV00260,W021,1620.0,spike,E010,single-point jump inconsistent with temporal/spatial plume
+PV00567,W034,3060.0,spike,E006,single-point jump inconsistent with temporal/spatial plume
+PV00281,W022,1260.0,spike,E005,single-point jump inconsistent with temporal/spatial plume
+PV00369,W026,540.0,spike,E009,single-point jump inconsistent with temporal/spatial plume
+PV00355,W025,2160.0,spike,E004,single-point jump inconsistent with temporal/spatial plume
+PV00081,W013,2520.0,stuck_zero,E016,stuck_zero block caused by monitoring logger fault
+PV00407,W027,3240.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+PV00395,W027,1080.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+PV00403,W027,2520.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+PV00397,W027,1440.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+PV00334,W024,2520.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00335,W024,2700.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00408,W027,3420.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+PV00404,W027,2700.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+PV00338,W024,3240.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00326,W024,1080.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00330,W024,1800.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00396,W027,1260.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+PV00331,W024,1980.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00339,W024,3420.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00337,W024,3060.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00402,W027,2340.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+PV00327,W024,1260.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00328,W024,1440.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+PV00542,W033,2700.0,true_plume_arrival,E001,real plume arrival consistent with downstream travel
+PV00212,W019,1260.0,true_plume_arrival,E003,real plume arrival consistent with downstream travel
+PV00426,W028,2520.0,true_plume_arrival,E002,real plume arrival consistent with downstream travel
+PV00211,W019,1080.0,true_plume_arrival,E003,real plume arrival consistent with downstream travel
+PV00541,W033,2520.0,true_plume_arrival,E001,real plume arrival consistent with downstream travel
+PV00423,W028,1980.0,true_plume_arrival,E002,real plume arrival consistent with downstream travel
+PV00543,W033,2880.0,true_plume_arrival,E001,real plume arrival consistent with downstream travel
+PV00425,W028,2340.0,true_plume_arrival,E002,real plume arrival consistent with downstream travel
+PV00424,W028,2160.0,true_plume_arrival,E002,real plume arrival consistent with downstream travel
+PV00540,W033,2340.0,true_plume_arrival,E001,real plume arrival consistent with downstream travel
+PV00150,W016,2520.0,unit_error,E015,mg/L and ug/L style scale mismatch
+PV00557,W034,1260.0,unit_error,E014,mg/L and ug/L style scale mismatch
+PV00149,W016,2340.0,unit_error,E015,mg/L and ug/L style scale mismatch
+PV00556,W034,1080.0,unit_error,E014,mg/L and ug/L style scale mismatch

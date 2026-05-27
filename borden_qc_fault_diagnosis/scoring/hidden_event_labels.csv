@@ -1,0 +1,36 @@
+event_id,anomaly_label,n_records,root_cause
+E001,true_plume_arrival,4,real plume arrival consistent with downstream travel
+E002,true_plume_arrival,3,real plume arrival consistent with downstream travel
+E003,true_plume_arrival,3,real plume arrival consistent with downstream travel
+E004,true_plume_arrival,4,real plume arrival consistent with downstream travel
+E005,spike,1,single-point jump inconsistent with temporal/spatial plume
+E006,spike,1,single-point jump inconsistent with temporal/spatial plume
+E007,spike,1,single-point jump inconsistent with temporal/spatial plume
+E008,spike,1,single-point jump inconsistent with temporal/spatial plume
+E009,spike,1,single-point jump inconsistent with temporal/spatial plume
+E010,spike,1,single-point jump inconsistent with temporal/spatial plume
+E011,spike,1,single-point jump inconsistent with temporal/spatial plume
+E012,spike,1,single-point jump inconsistent with temporal/spatial plume
+E013,spike,1,single-point jump inconsistent with temporal/spatial plume
+E014,spike,1,single-point jump inconsistent with temporal/spatial plume
+E015,negative,1,instrument baseline subtraction produced negative concentration
+E016,negative,1,instrument baseline subtraction produced negative concentration
+E017,negative,1,instrument baseline subtraction produced negative concentration
+E018,negative,1,instrument baseline subtraction produced negative concentration
+E019,unit_error,2,mg/L and ug/L style scale mismatch
+E020,unit_error,2,mg/L and ug/L style scale mismatch
+E021,unit_error,2,mg/L and ug/L style scale mismatch
+E022,stuck_zero,3,stuck_zero block caused by monitoring logger fault
+E023,stuck_zero,3,stuck_zero block caused by monitoring logger fault
+E024,missing,3,missing block caused by monitoring logger fault
+E025,missing,3,missing block caused by monitoring logger fault
+E026,drift,18,slow sensor drift relative to local plume trend
+E027,drift,17,slow sensor drift relative to local plume trend
+E028,drift,17,slow sensor drift relative to local plume trend
+E029,drift,19,slow sensor drift relative to local plume trend
+E030,time_shift,18,timestamp shift moves plume peak relative to travel-time ordering
+E031,time_shift,18,timestamp shift moves plume peak relative to travel-time ordering
+E032,time_shift,18,timestamp shift moves plume peak relative to travel-time ordering
+E033,coordinate_or_depth_error,26,curve is smooth but inconsistent with published well geometry
+E034,coordinate_or_depth_error,26,curve is smooth but inconsistent with published well geometry
+E035,coordinate_or_depth_error,26,curve is smooth but inconsistent with published well geometry

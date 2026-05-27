@@ -1,0 +1,16 @@
+{
+  "eval_records": 936,
+  "hidden_label_counts": {
+    "normal": 715,
+    "coordinate_or_depth_error": 78,
+    "drift": 54,
+    "time_shift": 54,
+    "spike": 9,
+    "true_plume_arrival": 7,
+    "stuck_zero": 6,
+    "unit_error": 6,
+    "negative": 4,
+    "missing": 3
+  },
+  "scoring": "format 5, record F1 20, event 20, type macro-F1 20, physical consistency 20, cleaning 10, report 5"
+}

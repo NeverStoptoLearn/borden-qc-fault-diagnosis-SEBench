@@ -1,0 +1,83 @@
+record_id,well_id,time_days,anomaly_label,event_id,root_cause
+TR00301,W014,720.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+TR00537,W024,1800.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00545,W024,3240.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00321,W014,4320.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+TR00307,W014,1800.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+TR00313,W014,2880.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+TR00550,W024,4140.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00540,W024,2340.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00535,W024,1440.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00547,W024,3600.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00536,W024,1620.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00308,W014,1980.0,coordinate_or_depth_error,E023,curve is smooth but inconsistent with published well geometry
+TR00541,W024,2520.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00532,W024,900.0,coordinate_or_depth_error,E024,curve is smooth but inconsistent with published well geometry
+TR00124,W006,1980.0,drift,E019,slow sensor drift relative to local plume trend
+TR00609,W027,2340.0,drift,E020,slow sensor drift relative to local plume trend
+TR00608,W027,2160.0,drift,E020,slow sensor drift relative to local plume trend
+TR00451,W020,2880.0,drift,E018,slow sensor drift relative to local plume trend
+TR00130,W006,3060.0,drift,E019,slow sensor drift relative to local plume trend
+TR00136,W006,4140.0,drift,E019,slow sensor drift relative to local plume trend
+TR00619,W027,4140.0,drift,E020,slow sensor drift relative to local plume trend
+TR00614,W027,3240.0,drift,E020,slow sensor drift relative to local plume trend
+TR00459,W020,4320.0,drift,E018,slow sensor drift relative to local plume trend
+TR00616,W027,3600.0,drift,E020,slow sensor drift relative to local plume trend
+TR00605,W027,1620.0,drift,E020,slow sensor drift relative to local plume trend
+TR00131,W006,3240.0,drift,E019,slow sensor drift relative to local plume trend
+TR00458,W020,4140.0,drift,E018,slow sensor drift relative to local plume trend
+TR00618,W027,3960.0,drift,E020,slow sensor drift relative to local plume trend
+TR00588,W026,2700.0,missing,E017,missing block caused by monitoring logger fault
+TR00590,W026,3060.0,missing,E017,missing block caused by monitoring logger fault
+TR00589,W026,2880.0,missing,E017,missing block caused by monitoring logger fault
+TR00226,W010,3780.0,negative,E011,instrument baseline subtraction produced negative concentration
+TR00325,W015,900.0,negative,E013,instrument baseline subtraction produced negative concentration
+TR00264,W012,2340.0,normal,E000,none
+TR00434,W019,3960.0,normal,E000,none
+TR00196,W009,2520.0,normal,E000,none
+TR00235,W011,1260.0,normal,E000,none
+TR00291,W013,3060.0,normal,E000,none
+TR00212,W010,1260.0,normal,E000,none
+TR00121,W006,1440.0,normal,E000,none
+TR00162,W008,540.0,normal,E000,none
+TR00238,W011,1800.0,normal,E000,none
+TR00190,W009,1440.0,normal,E000,none
+TR00104,W005,2520.0,normal,E000,none
+TR00501,W022,3600.0,normal,E000,none
+TR00572,W025,3960.0,normal,E000,none
+TR00296,W013,3960.0,normal,E000,none
+TR00411,W018,3960.0,spike,E008,single-point jump inconsistent with temporal/spatial plume
+TR00527,W023,4140.0,spike,E004,single-point jump inconsistent with temporal/spatial plume
+TR00334,W015,2520.0,spike,E009,single-point jump inconsistent with temporal/spatial plume
+TR00415,W019,540.0,spike,E005,single-point jump inconsistent with temporal/spatial plume
+TR00403,W018,2520.0,spike,E006,single-point jump inconsistent with temporal/spatial plume
+TR00488,W022,1260.0,stuck_zero,E016,stuck_zero block caused by monitoring logger fault
+TR00490,W022,1620.0,stuck_zero,E016,stuck_zero block caused by monitoring logger fault
+TR00489,W022,1440.0,stuck_zero,E016,stuck_zero block caused by monitoring logger fault
+TR00418,W019,1080.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+TR00357,W016,2520.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00355,W016,2160.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00429,W019,3060.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+TR00352,W016,1620.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00360,W016,3060.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00363,W016,3600.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00424,W019,2160.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+TR00358,W016,2700.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00354,W016,1980.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00359,W016,2880.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00425,W019,2340.0,time_shift,E022,timestamp shift moves plume peak relative to travel-time ordering
+TR00351,W016,1440.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00353,W016,1800.0,time_shift,E021,timestamp shift moves plume peak relative to travel-time ordering
+TR00443,W020,1440.0,true_plume_arrival,E003,real plume arrival consistent with downstream travel
+TR00444,W020,1620.0,true_plume_arrival,E003,real plume arrival consistent with downstream travel
+TR00371,W017,900.0,true_plume_arrival,E001,real plume arrival consistent with downstream travel
+TR00442,W020,1260.0,true_plume_arrival,E003,real plume arrival consistent with downstream travel
+TR00373,W017,1260.0,true_plume_arrival,E001,real plume arrival consistent with downstream travel
+TR00441,W020,1080.0,true_plume_arrival,E003,real plume arrival consistent with downstream travel
+TR00326,W015,1080.0,true_plume_arrival,E002,real plume arrival consistent with downstream travel
+TR00372,W017,1080.0,true_plume_arrival,E001,real plume arrival consistent with downstream travel
+TR00324,W015,720.0,true_plume_arrival,E002,real plume arrival consistent with downstream travel
+TR00498,W022,3060.0,unit_error,E015,mg/L and ug/L style scale mismatch
+TR00499,W022,3240.0,unit_error,E015,mg/L and ug/L style scale mismatch
+TR00374,W017,1440.0,unit_error,E014,mg/L and ug/L style scale mismatch
+TR00375,W017,1620.0,unit_error,E014,mg/L and ug/L style scale mismatch
