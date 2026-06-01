@@ -73,6 +73,20 @@ anomaly_label,description,detection_rule,physical_rationale
 3. For final submission, run your detector on `eval_monitoring_noisy.csv` and write task-root `answer.csv` and `cleaned_monitoring_data.csv`.
 4. Improve by adding robust rolling statistics, neighbor-well checks, travel-time consistency, vertical-depth checks, event grouping, drift/time-shift detection, and conservative treatment of real plume arrivals.
 
+## Feedback Policy
+
+The judge keeps exact hidden labels, per-label hidden scores, cleaning RMSE, and
+event-level hidden residuals private. Iterative feedback is phrased like a QC
+review: it reports data screening, event grouping, fault typing, cleaning,
+physical rationale, and withheld-review defensibility as qualitative statuses.
+The internal review follows the practical QC workflow order: record screening
+must support event grouping, event evidence must support fault typing, and
+fault typing plus physical consistency must support repaired concentrations and
+the final report. Downstream artifacts are therefore credited only when the
+upstream diagnosis is strong enough to make them defensible.
+Use the public validator for numeric local tuning, and use judge feedback to
+identify which QC workflow stage needs review.
+
 ## Rules
 
 - CPU only; no internet; no GPU required.
