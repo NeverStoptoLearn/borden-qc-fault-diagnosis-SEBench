@@ -83,7 +83,12 @@ The internal review follows the practical QC workflow order: record screening
 must support event grouping, event evidence must support fault typing, and
 fault typing plus physical consistency must support repaired concentrations and
 the final report. Downstream artifacts are therefore credited only when the
-upstream diagnosis is strong enough to make them defensible.
+upstream diagnosis is strong enough to make them defensible. Record-level
+screening also receives only a small standalone screening credit; most
+record-screening credit is confirmed by coherent event grouping, fault typing,
+and physical closure. Higher downstream credit requires strict closure across
+event quality, fault typing, true-plume treatment, key physical fault types,
+over-label control, and cleaning-action consistency.
 Use the public validator for numeric local tuning, and use judge feedback to
 identify which QC workflow stage needs review.
 

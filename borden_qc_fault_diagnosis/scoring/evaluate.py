@@ -106,13 +106,15 @@ def qc_review_state(detail):
     fault_typing = _normalize_quality(bands.get("classification"))
     cleaning_repair = _normalize_quality(bands.get("cleaning"))
     physical_rationale = _normalize_quality(bands.get("physics"))
+    if data_screening in {"adequate", "strong"} and float(gates.get("record_dependency_gate", 1.0) or 0.0) < 0.50:
+        data_screening = "dependency_blocked"
     if cleaning_repair in {"adequate", "strong"} and float(gates.get("cleaning_dependency_gate", 1.0) or 0.0) < 0.50:
         cleaning_repair = "dependency_blocked"
     report_quality = _band_from_score(detail.get("report_score", 0.0), 5.0)
 
     if detail.get("format_score", 0.0) < 2.0:
         process_stage = "setup"
-    elif data_screening in {"missing", "weak"}:
+    elif data_screening in {"missing", "weak", "dependency_blocked"}:
         process_stage = "screening"
     elif event_grouping in {"missing", "weak"}:
         process_stage = "screening+events"
@@ -138,7 +140,7 @@ def qc_review_state(detail):
         next_review = "Group record-level detections into event intervals with evidence."
     elif missing_cleaned:
         next_review = "Provide repaired concentrations and cleaning actions for every evaluation record."
-    elif data_screening in {"missing", "weak"}:
+    elif data_screening in {"missing", "weak", "dependency_blocked"}:
         next_review = "Improve initial anomaly screening before fault typing."
     elif event_grouping in {"missing", "weak"}:
         next_review = "Convert isolated record detections into physically consistent fault events."
@@ -204,6 +206,7 @@ QC_PROCESS_STAGE_TEXT = {
 QC_DATA_QC_TEXT = {
     "missing": "No meaningful record-level anomaly screening was produced.",
     "weak": "Record-level anomaly screening is weak; improve initial detection before fault typing.",
+    "dependency_blocked": "Record-level screening finds candidate anomalies, but it is not yet creditable as a completed QC result because event grouping, fault typing, or physical closure is weak.",
     "partial": "Record-level anomaly screening is partially useful, but false positives or missed faults still need review.",
     "adequate": "Record-level anomaly screening is adequate for event-level review.",
     "strong": "Record-level anomaly screening is strongly supported by the submitted outputs.",
@@ -351,6 +354,10 @@ def clamp01(value):
         return 0.0
 
 
+def band_gate(value, low, high):
+    return clamp01((float(value) - float(low)) / max(float(high) - float(low), 1e-9))
+
+
 def event_score(labels, pred):
     merged = labels[["record_id", "event_id", "anomaly_label"]].merge(pred[["record_id", "anomaly_label_pred"]], on="record_id", how="left")
     scores = []
@@ -440,35 +447,64 @@ def evaluate(submission_dir, case_dir, scoring_dir, output):
     event_score_raw = scaled_score(ev_quality, 0.60, 0.90, 15.0, gamma=1.5)
 
     # Stage dependency is applied as continuous release, not as a final cap.
-    # Later QC artifacts only earn credit when the upstream diagnosis is strong
-    # enough to make that artifact meaningful in a real review.
+    # Record screening has only limited standalone value: most record-level
+    # credit must be confirmed by event grouping, fault typing, and physical
+    # closure. Later QC artifacts then use the validated record gate.
     record_gate = release_gate(record_f1, 0.65, 0.92)
     event_gate = release_gate(ev_quality, 0.60, 0.90)
     type_gate = release_gate(type_mf1, 0.55, 0.88)
     event_artifact_gate = 1.0 if valid_events else 0.0
     type_artifact_gate = 1.0 if valid_types else 0.0
     clean_artifact_gate = 1.0 if valid_cleaned else 0.0
-    event_dependency_gate = record_gate * event_artifact_gate
-    type_dependency_gate = min(record_gate, event_gate) * type_artifact_gate
-    diagnosis_release_gate = min(record_gate, event_gate, type_gate) * type_artifact_gate
-    record_score = record_score_raw
-    event_score_val = event_score_raw * event_dependency_gate
-    type_score = type_score_raw * type_dependency_gate
 
     plume_mask = true.eq("true_plume_arrival")
     plume_fp = float(np.mean(pred[plume_mask].isin(FAULT_LABELS))) if plume_mask.any() else 0.0
+    plume_recall = float(np.mean(pred[plume_mask].eq("true_plume_arrival"))) if plume_mask.any() else 0.0
     drift_mask = true.eq("drift")
     drift_recall = float(np.mean(pred[drift_mask].eq("drift"))) if drift_mask.any() else 0.0
     shift_mask = true.eq("time_shift")
     shift_recall = float(np.mean(pred[shift_mask].eq("time_shift"))) if shift_mask.any() else 0.0
     coord_mask = true.eq("coordinate_or_depth_error")
     coord_recall = float(np.mean(pred[coord_mask].eq("coordinate_or_depth_error"))) if coord_mask.any() else 0.0
+    key_type_min_recall = min(drift_recall, shift_recall, coord_recall, plume_recall)
+    key_type_gate = band_gate(key_type_min_recall, 0.18, 0.62)
+    true_plume_gate = min(band_gate(plume_recall, 0.20, 0.70), band_gate(1.0 - plume_fp, 0.70, 0.98))
+
+    pred_fault_rate = float(np.mean(y_pred_fault)) if len(y_pred_fault) else 0.0
+    true_fault_rate = float(np.mean(y_true_fault)) if len(y_true_fault) else 0.0
+    over_ratio = pred_fault_rate / max(true_fault_rate, 1e-9)
+    under_ratio = true_fault_rate / max(pred_fault_rate, 1e-9) if pred_fault_rate > 0 else float("inf")
+    overlabel_gate = clamp01((2.60 - over_ratio) / 1.60) * clamp01((2.80 - under_ratio) / 1.80)
+    overlabel_gate = max(0.0, min(1.0, overlabel_gate))
+
+    event_scores = [float(r.get("event_score", 0.0)) for r in event_rows]
+    event_boundary_quality = float(np.mean(event_scores)) if event_scores else 0.0
+    event_boundary_gate = band_gate(event_boundary_quality, 0.50, 0.85)
+
     downstream_order = 1.0 - plume_fp
     complex_recall = (drift_recall + shift_recall + coord_recall) / 3.0
     physical_quality = (0.35 * downstream_order + 0.25 * drift_recall + 0.20 * shift_recall + 0.20 * coord_recall) * min(1.0, complex_recall / 0.20)
     physical_score_raw = 10.0 * clamp01(physical_quality)
     physics_quality_gate = release_gate(physical_quality, 0.20, 0.75)
-    physical_score = physical_score_raw * diagnosis_release_gate
+    strict_closure_gate = min(
+        event_gate,
+        type_gate,
+        physics_quality_gate,
+        true_plume_gate,
+        key_type_gate,
+        event_boundary_gate,
+        overlabel_gate,
+    )
+    diagnostic_closure_gate = strict_closure_gate
+    record_dependency_gate = 0.06 + 0.94 * (strict_closure_gate ** 2)
+    validated_record_gate = min(record_gate, record_dependency_gate)
+    event_dependency_gate = validated_record_gate * event_artifact_gate
+    type_dependency_gate = min(validated_record_gate, event_gate, true_plume_gate, key_type_gate) * type_artifact_gate
+    diagnosis_release_gate = min(validated_record_gate, event_gate, type_gate, true_plume_gate, key_type_gate) * type_artifact_gate
+    record_score = record_score_raw * record_dependency_gate
+    event_score_val = event_score_raw * event_dependency_gate
+    type_score = type_score_raw * type_dependency_gate
+    physical_score = physical_score_raw * (strict_closure_gate ** 2) * type_artifact_gate
 
     clean_score = 0.0
     clean_score_raw = 0.0
@@ -486,7 +522,23 @@ def evaluate(submission_dir, case_dir, scoring_dir, output):
         clean_score_raw = scaled_score(improvement, 0.05, 0.45, 25.0, gamma=1.5)
         clean_metrics = {"clean_rmse": rmse, "raw_rmse": raw_rmse, "rmse_improvement": improvement}
     clean_quality_gate = release_gate(clean_raw, 0.05, 0.45)
-    cleaning_dependency_gate = min(record_gate, event_gate, type_gate, physics_quality_gate) * clean_artifact_gate * type_artifact_gate
+    cleaning_action_gate = 0.0
+    if valid_cleaned and "cleaning_action" in cleaned.columns and "record_id" in cleaned.columns:
+        action_map = cleaned.set_index("record_id")["cleaning_action"].fillna("").astype(str)
+        action = merged["record_id"].map(action_map).fillna("").astype(str)
+        normal_mask = true.eq("normal")
+        plume_true_mask = true.eq("true_plume_arrival")
+        fault_true_mask = true.isin(FAULT_LABELS)
+        passive_actions = ["none", "keep", "unchanged", "none_real_plume", "template_blend"]
+        normal_unchanged = float(np.mean(action[normal_mask].str.lower().isin(passive_actions))) if normal_mask.any() else 1.0
+        plume_unrepaired = float(np.mean(action[plume_true_mask].str.lower().isin(passive_actions))) if plume_true_mask.any() else 1.0
+        fault_repaired = float(np.mean(~action[fault_true_mask].str.lower().isin(["", "none", "keep", "unchanged", "none_real_plume"]))) if fault_true_mask.any() else 0.0
+        cleaning_action_quality = 0.35 * normal_unchanged + 0.25 * plume_unrepaired + 0.40 * fault_repaired
+        cleaning_action_gate = band_gate(cleaning_action_quality, 0.45, 0.82)
+    else:
+        cleaning_action_quality = 0.0
+    downstream_closure_gate = strict_closure_gate ** 4
+    cleaning_dependency_gate = downstream_closure_gate * clean_artifact_gate * type_artifact_gate * cleaning_action_gate
     clean_score = clean_score_raw * cleaning_dependency_gate
 
     report_score_raw = 0.0
@@ -505,11 +557,12 @@ def evaluate(submission_dir, case_dir, scoring_dir, output):
         if long_report and any(k in lower for k in group):
             report_score_raw += 0.45
     report_score_raw = min(5.0, report_score_raw)
-    report_dependency_gate = min(record_gate, event_gate, type_gate, clean_quality_gate) * type_artifact_gate
+    report_dependency_gate = downstream_closure_gate * min(clean_quality_gate, cleaning_action_gate) * type_artifact_gate
     report_score = report_score_raw * report_dependency_gate
     robustness_raw = min(record_f1, ev_quality, type_mf1, clean_raw if clean_raw > 0 else 0.0)
     robustness_score_raw = scaled_score(robustness_raw, 0.50, 0.85, 7.0, gamma=1.5)
-    robustness_dependency_gate = min(record_gate, event_gate, type_gate, clean_quality_gate, physics_quality_gate) * event_artifact_gate * type_artifact_gate * clean_artifact_gate
+    stress_balance = min(record_gate, event_gate, type_gate, physics_quality_gate, true_plume_gate, key_type_gate, event_boundary_gate, overlabel_gate, cleaning_action_gate, clean_quality_gate)
+    robustness_dependency_gate = (stress_balance ** 4) * event_artifact_gate * type_artifact_gate * clean_artifact_gate
     robustness_score = robustness_score_raw * robustness_dependency_gate
 
     raw_total_before_dependency = (
@@ -532,6 +585,7 @@ def evaluate(submission_dir, case_dir, scoring_dir, output):
         "cap_reasons": [],
         "dependency_limited_reasons": [
             reason for reason, gate in [
+                ("record_screening_depends_on_diagnostic_closure", record_dependency_gate),
                 ("event_grouping_depends_on_record_screening", event_dependency_gate),
                 ("fault_typing_depends_on_record_and_event_quality", type_dependency_gate),
                 ("physical_review_depends_on_fault_typing", diagnosis_release_gate),
@@ -553,16 +607,40 @@ def evaluate(submission_dir, case_dir, scoring_dir, output):
             "record_gate": round(record_gate, 3),
             "event_gate": round(event_gate, 3),
             "type_gate": round(type_gate, 3),
+            "diagnostic_closure_gate": round(diagnostic_closure_gate, 3),
+            "strict_closure_gate": round(strict_closure_gate, 3),
+            "true_plume_gate": round(true_plume_gate, 3),
+            "key_type_gate": round(key_type_gate, 3),
+            "event_boundary_gate": round(event_boundary_gate, 3),
+            "overlabel_gate": round(overlabel_gate, 3),
+            "record_dependency_gate": round(record_dependency_gate, 3),
+            "validated_record_gate": round(validated_record_gate, 3),
             "event_dependency_gate": round(event_dependency_gate, 3),
             "type_dependency_gate": round(type_dependency_gate, 3),
             "diagnosis_release_gate": round(diagnosis_release_gate, 3),
             "physics_quality_gate": round(physics_quality_gate, 3),
             "clean_quality_gate": round(clean_quality_gate, 3),
+            "cleaning_action_gate": round(cleaning_action_gate, 3),
+            "downstream_closure_gate": round(downstream_closure_gate, 3),
             "cleaning_dependency_gate": round(cleaning_dependency_gate, 3),
             "report_dependency_gate": round(report_dependency_gate, 3),
             "robustness_dependency_gate": round(robustness_dependency_gate, 3),
         },
         "clean_metrics": clean_metrics,
+        "diagnostic_balance": {
+            "true_plume_recall": round(plume_recall, 3),
+            "true_plume_false_fault_rate": round(plume_fp, 3),
+            "drift_recall": round(drift_recall, 3),
+            "time_shift_recall": round(shift_recall, 3),
+            "coordinate_depth_recall": round(coord_recall, 3),
+            "predicted_fault_rate": round(pred_fault_rate, 3),
+            "true_fault_rate": round(true_fault_rate, 3),
+            "overlabel_ratio": round(over_ratio, 3),
+            "underlabel_ratio": round(under_ratio if math.isfinite(under_ratio) else 999.0, 3),
+            "event_boundary_quality": round(event_boundary_quality, 3),
+            "cleaning_action_quality": round(cleaning_action_quality, 3),
+            "stress_balance": round(stress_balance, 3),
+        },
         "raw_component_scores_before_dependency": {
             "format": round(format_score, 3),
             "record_anomaly_detection": round(record_score_raw, 3),
