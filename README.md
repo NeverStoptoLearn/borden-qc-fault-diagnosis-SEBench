@@ -99,3 +99,16 @@ identify which QC workflow stage needs review.
 - Do not hard-code hidden answers or record ids.
 - Do not use external MODFLOW/MT3DMS/FloPy executables.
 - Submit scripts used to generate your outputs.
+
+## Dataset Size and Split
+
+The visible development data include 621 noisy monitoring records and 82 labeled
+training records. The public validation file contains 621 records, but only a
+small partial label subset of 98 records is provided for local tuning. The final
+evaluation file contains 936 records.
+
+The public label subset is intentionally small and should not be assumed to
+match the final hidden evaluation label distribution. Do not optimize only for
+the public subset. Use it as a sanity check, and rely on physical consistency,
+neighbor-well relationships, travel-time ordering, and conservative anomaly
+screening for the final evaluation.
